@@ -7,14 +7,14 @@ class App extends React.Component {
     super();
 
     this.state = {
-      activity: [],
+      activities: [],
     };
   }
 
   componentDidMount() {
     if (localStorage.activities) {
       this.setState({
-        activity: JSON.parse(localStorage.activities) || [],
+        activities: JSON.parse(localStorage.activities) || [],
       });
     }
     window.addEventListener("beforeunload", this.localStorage);
@@ -51,22 +51,30 @@ class App extends React.Component {
 
   handleDelete = (activity) => {
     this.setState({
-      activity: this.state.activity.filter((a) => a.name !== activity),
+      activities: this.state.activities.filter((a) => a.name !== activity),
     });
   };
 
-  handleDone = (index, activityName) => {
-    this.state.activity.find((activity) => {
+  handleDone = (dayId, activityName) => {
+    const final = this.state.activities.map((activity) => {
       if (activity.name === activityName) {
-        activity.days[index - 1].isDone = !activity.days[index - 1].isDone;
+        activity.days.map((day) => {
+          if (day.id == dayId) {
+            return { ...day, isDone: !day.isDone };
+          }
+          return day;
+        });
       }
-      this.forceUpdate();
+      return activity;
+    });
+    this.setState({
+      activities: final,
     });
   };
 
   addActivity = (activityName, days = this.handleCurrent) => {
     if (
-      this.state.activity.find((activityy) => activityy.name === activityName)
+      this.state.activities.find((activityy) => activityy.name === activityName)
     ) {
       return alert("already added activity");
     }
@@ -86,7 +94,7 @@ class App extends React.Component {
     }));
   };
   localStorage = () => {
-    localStorage.setItem("activities", JSON.stringify(this.state.activity));
+    localStorage.setItem("activities", JSON.stringify(this.state.activities));
   };
 
   render() {

@@ -3,7 +3,7 @@ import React from "react";
 function Activity(props) {
   return (
     <div className="acitvites">
-      {props.thisState.activity.map((activity, i) => {
+      {props.thisState.activities.map((activity, i) => {
         return (
           <div key={i} className="activity flex">
             <div className="flex fs-20 fw-600 title justify-center align-center width-30">
@@ -17,8 +17,8 @@ function Activity(props) {
               {activity.days.map((day) => {
                 return (
                   <button
-                    onClick={(event) => {
-                      props.handleDone(event.target.id, activity.name);
+                    onClick={() => {
+                      props.handleDone(day.id, activity.name);
                     }}
                     className={`button flex align-center justify-center ${
                       day.isDone ? "active" : ""
