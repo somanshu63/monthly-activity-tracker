@@ -17,18 +17,18 @@ class App extends React.Component {
         activities: JSON.parse(localStorage.activities) || [],
       });
     }
-    window.addEventListener("beforeunload", this.localStorage);
+    window.addEventListener("beforeunload", this.handleLocalStorage);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("beforeunload", this.localStorage);
+    window.removeEventListener("beforeunload", this.handleLocalStorage);
   }
 
   handleCurrent = () => {
     const date = new Date();
-    var days = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    var currentMonth = new Date().getMonth() + 1;
-    var month = [
+    let days = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    let currentMonth = new Date().getMonth() + 1;
+    let month = [
       "JANUARY",
       "FEBRUARY",
       "MARCH",
@@ -42,7 +42,7 @@ class App extends React.Component {
       "NOVEMBER",
       "DECEMBER",
     ];
-    var current = {
+    let current = {
       days: days,
       month: month[currentMonth],
     };
@@ -59,8 +59,9 @@ class App extends React.Component {
     const final = this.state.activities.map((activity) => {
       if (activity.name === activityName) {
         activity.days.map((day) => {
-          if (day.id == dayId) {
-            return { ...day, isDone: !day.isDone };
+          if (day.id === dayId) {
+            day.isDone = !day.isDone;
+            return day;
           }
           return day;
         });
@@ -78,22 +79,22 @@ class App extends React.Component {
     ) {
       return alert("already added activity");
     }
-    var arr = [];
+    let arr = [];
     for (let i = 1; i < days().days + 1; i++) {
       arr.push({
         id: i,
         isDone: false,
       });
     }
-    var object = {
+    let object = {
       name: activityName,
       days: arr,
     };
     this.setState((prevState) => ({
-      activity: [...prevState.activity, object],
+      activities: [...prevState.activities, object],
     }));
   };
-  localStorage = () => {
+  handleLocalStorage = () => {
     localStorage.setItem("activities", JSON.stringify(this.state.activities));
   };
 
@@ -101,7 +102,7 @@ class App extends React.Component {
     return [
       <Header addActivity={this.addActivity} />,
       <Activity
-        thisState={this.state}
+        activities={this.state.activities}
         handleCurrent={this.handleCurrent}
         handleDone={this.handleDone}
         handleDelete={this.handleDelete}

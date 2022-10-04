@@ -1,9 +1,10 @@
 import React from "react";
 
 function Activity(props) {
+  console.log(props);
   return (
     <div className="acitvites">
-      {props.thisState.activities.map((activity, i) => {
+      {props.activities.map((activity, i) => {
         return (
           <div key={i} className="activity flex">
             <div className="flex fs-20 fw-600 title justify-center align-center width-30">
