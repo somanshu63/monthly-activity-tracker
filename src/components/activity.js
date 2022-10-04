@@ -1,7 +1,6 @@
 import React from "react";
 
 function Activity(props) {
-  console.log(props);
   return (
     <div className="acitvites">
       {props.activities.map((activity, i) => {
