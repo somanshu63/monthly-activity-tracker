@@ -5,8 +5,8 @@ An application that gives users the tools and support they need to stay on top o
 Tech Stack: React
 
 ### Features
-- Add, remove activities you want to track.
-- Mark the dates you worked on and track your progress.
+- Add or remove activities you want to track.
+- Mark or unmark the dates you worked on and track your progress.
 
 # Build/Run
 ### Requirements
